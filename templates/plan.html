@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>📅 Your Study Plan</h1>
+
+<h2>🔥 Today's Study Plan</h2>
+
+<ul>
+    {% for s in today_plan %}
+        <li>
+            <b>{{ s[1] }}</b> — Study Hours: {{ s[4] }}
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>📚 Full Study Plan</h2>
+
+<ul>
+    {% for s in subjects %}
+        <li>
+            <b>{{ s[1] }}</b> —
+            {{ s[2] }} —
+            Exam: {{ s[3] }} —
+            Hours: {{ s[4] }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="/">⬅ Back to Home</a>
+
+</div>
+
+</body>
+</html>

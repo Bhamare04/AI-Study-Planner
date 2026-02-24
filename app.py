@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -52,5 +53,58 @@ def home():
 
     return render_template('index.html', subjects=subjects)
 
+@app.route('/plan')
+@app.route('/plan')
+def plan():
+
+    conn = sqlite3.connect('planner.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM subjects")
+    subjects = cursor.fetchall()
+
+    for r in subjects:
+        print(r)
+        
+    conn.close()
+
+    from datetime import datetime
+
+    # ---- Difficulty Score ----
+    def difficulty_score(diff):
+        if diff == "Hard":
+            return 3
+        elif diff == "Medium":
+            return 2
+        else:
+            return 1
+
+    # ---- Exam Urgency Score ----
+    def urgency_score(date_str):
+        exam_date = datetime.strptime(date_str, "%Y-%m-%d")
+        days_left = (exam_date - datetime.now()).days
+
+        if days_left <= 3:
+            return 3
+        elif days_left <= 7:
+            return 2
+        else:
+            return 1
+
+    # ---- FINAL PRIORITY SORT ----
+    subjects_sorted = sorted(
+        subjects,
+        key=lambda s: difficulty_score(s[2]) + urgency_score(s[3]),
+        reverse=True
+    )
+
+    # 🔥 TODAY'S PLAN (Top 3 Subjects)
+    today_plan = subjects_sorted[:3]
+
+    return render_template(
+        'plan.html',
+        subjects=subjects_sorted,
+        today_plan=today_plan
+    )
 if __name__ == '__main__':
     app.run(debug=True)
