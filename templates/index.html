@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Study Planner</title>
+</head>
+<body>
+
+<h1>📚 AI Study Planner</h1>
+
+<h2>Add Subject</h2>
+
+<form method="POST">
+
+    Subject Name:
+    <input type="text" name="name" required><br><br>
+
+    Difficulty:
+    <select name="difficulty">
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+    </select><br><br>
+
+    Exam Date:
+    <input type="date" name="exam_date" required><br><br>
+
+    Daily Study Hours:
+    <input type="number" name="study_hours" required><br><br>
+
+    <button type="submit">Add</button>
+
+</form>
+
+<h2>Subjects List</h2>
+
+<ul>
+    {% for s in subjects %}
+        <li>
+            {{ s[1] }} —
+            {{ s[2] }} —
+            Exam: {{ s[3] }} —
+            Hours: {{ s[4] }}
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
